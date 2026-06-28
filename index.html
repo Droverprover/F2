@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICCEPH OBFUSCATOR</title>
+
+    <style>
+      :root {
+        --bg-color: #060913;
+        --card-bg: #0f1424;
+        --accent: #d946ef;
+        --accent-hover: #c084fc;
+        --text-color: #f3f4f6;
+        --border-color: #1e293b;
+        --textarea-bg: #02040a;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .container {
+        background-color: var(--card-bg);
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 0 30px rgba(217, 70, 239, 0.2);
+        width: 100%;
+        max-width: 700px;
+        border: 1px solid var(--border-color);
+      }
+
+      h1 {
+        text-align: center;
+        color: #d946ef;
+        margin-bottom: 25px;
+        font-size: 32px;
+        font-weight: 800;
+      }
+
+      .cloudflare-box {
+        background-color: #161d30;
+        border: 1px solid #2d3748;
+        padding: 20px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .cf-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .cf-checkbox {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        accent-color: #2563eb;
+      }
+
+      .cf-text {
+        font-size: 15px;
+        font-weight: 500;
+        color: #e2e8f0;
+      }
+
+      .cf-logo {
+        text-align: right;
+        font-size: 12px;
+        color: #94a3b8;
+      }
+
+      .main-content {
+        display: none;
+      }
+
+      .actions-row {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+
+      textarea {
+        width: 100%;
+        height: 140px;
+        background-color: var(--textarea-bg);
+        color: #a7f3d0;
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 14px;
+        box-sizing: border-box;
+        font-family: 'Consolas', 'Courier New', monospace;
+        resize: vertical;
+        margin-bottom: 15px;
+        direction: ltr;
+        text-align: left;
+      }
+
+      .btn {
+        background-color: var(--accent);
+        color: white;
+        border: none;
+        padding: 14px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 15px;
+        transition: all 0.2s ease;
+        text-align: center;
+      }
+
+      .btn:hover {
+        background-color: #c084fc;
+      }
+
+      .btn-block {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      .btn-upload {
+        background-color: #0284c7;
+        flex: 1;
+        display: block;
+        cursor: pointer;
+      }
+
+      .btn-upload:hover {
+        background-color: #0369a1;
+      }
+
+      .btn-sec {
+        background-color: #334155;
+        width: 48%;
+      }
+
+      .btn-sec:hover {
+        background-color: #1e293b;
+      }
+
+      #file-input {
+        display: none;
+      }
+
+      .flex-row {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .label {
+        margin-bottom: 8px;
+        display: block;
+        color: #94a3b8;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>ICCEPH OBFUSCATOR V3</h1>
+      
+      <!-- Cloudflare Verification Box -->
+      <div class="cloudflare-box" id="cf-container">
+        <div class="cf-left">
+          <input type="checkbox" id="cf-check" class="cf-checkbox" onclick="verifyHuman()">
+          <span class="cf-text" id="cf-status">I am human (Verify with ICCEPH Shield)</span>
+        </div>
+        <div class="cf-logo">
+          <span style="color: #f97316; font-weight: bold; font-size: 14px; display: block;">Cloudflare</span>
+          <span>Privacy - Terms</span>
+        </div>
+      </div>
+
+      <!-- Main Obfuscator UI -->
+      <div class="main-content" id="obfuscator-content">
+        <div class="actions-row">
+          <label for="file-input" class="btn btn-upload">Upload File (.lua / .txt) 📂</label>
+          <input type="file" id="file-input" accept=".lua,.txt">
+        </div>
+        <textarea id="input-code" placeholder="-- Paste your raw Lua code here..."></textarea>
+        <button class="btn btn-block" onclick="obfuscateAndLogV3()">Lock Code 🔒</button>
+        <span class="label">Protected Output:</span>
+        <textarea id="output-code" readonly placeholder="-- Protected code will appear here..."></textarea>
+        <div class="flex-row">
+          <button class="btn btn-sec" onclick="copyCode()">Copy Code 📋</button>
+          <button class="btn btn-sec" onclick="downloadCode()">Download 📥</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🛡️ بەشی دژە هاک و قەدەغەکردنی دزینی کۆدی لاپەڕەکە (Anti-Copy & Anti-F12) -->
+    <script>
+      document.addEventListener('contextmenu', event => event.preventDefault());
+
+      document.onkeydown = function(e) {
+        if (e.keyCode == 123) { return false; } // F12
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; }
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U
+      }
+    </script>
+
+    <!-- 🔒 لێرەدا فایلی جاوایسکریپتە قفڵکراوە سەرەکییەکەت (مێشکی سایتەکە) بانگ دەکەین -->
+    <script src="index.js"></script>
+  </body>
+</html>
