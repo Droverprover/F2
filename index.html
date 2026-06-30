@@ -7,10 +7,240 @@
     <meta name="google-site-verification" content="iqpy3fHG8EqEGjYyxJ5Qm3_y7rsnHRinUJ9WrpAXyHk" />
 
     <title>ICCEPH VM - Ultimate Lua Obfuscator</title>
-    <meta name="description" content="Protect your Roblox Lua scripts with ICCEPH Custom VM Obfuscator. High security, polymorphic engine, and free to use.">
-    <meta name="keywords" content="lua obfuscator, roblox script protect, icceph, icceph vm, delta executor script, free obfuscator">
+    <meta name="description" content="Protect your Roblox Lua scripts with ICCEPH Custom VM Obfuscator. Free and universal support.">
     
     <style>
-        <script src="index.js"></script>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #111827;
+            --accent: #3b82f6;
+            --accent-hover: #1d4ed8;
+            --text-color: #f3f4f6;
+            --border-color: #1f2937;
+            --textarea-bg: #030712;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 750px;
+            border: 1px solid var(--border-color);
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .logo-svg {
+            width: 90px;
+            height: 90px;
+            filter: drop-shadow(0 0 15px #38bdf8);
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #38bdf8;
+            margin-bottom: 25px;
+            font-size: 30px;
+            letter-spacing: 1px;
+        }
+
+        .actions-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            flex: 1;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-upload {
+            background-color: #059669;
+        }
+        .btn-upload:hover {
+            background-color: #047857;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            background-color: var(--textarea-bg);
+            color: #34d399;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px;
+            box-sizing: border-box;
+            font-family: 'Consolas', 'Courier New', monospace;
+            resize: vertical;
+            margin-bottom: 15px;
+            direction: ltr;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .output-label {
+            margin-bottom: 8px;
+            display: block;
+            font-weight: bold;
+            color: #9ca3af;
+        }
+
+        .footer-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-secondary {
+            background-color: #4b5563;
+        }
+        .btn-secondary:hover {
+            background-color: #374151;
+        }
+
+        /* 🛡️ شاشەی ڕووکاری Cloudflare Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 7, 18, 0.95);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        /* سندوقی کڵاودفلێر */
+        .cf-box {
+            background: #ffffff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            width: 300px;
+            color: #111827;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border: 1px solid #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .cf-left { display: flex; align-items: center; gap: 12px; }
+        .cf-checkbox {
+            width: 24px; height: 24px;
+            border: 2px solid #cbd5e1;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f8fafc;
+        }
+        .cf-text { font-size: 14px; font-weight: 500; color: #4b5563; user-select: none; }
+        .cf-spinner {
+            display: none; width: 12px; height: 12px;
+            border: 2px solid #e2e8f0; border-top: 2px solid #2563eb;
+            border-radius: 50%; animation: cf-spin 0.6s linear infinite;
+        }
+        .cf-check-icon { display: none; color: #16a34a; font-weight: bold; font-size: 16px; }
+        
+        /* لۆدینگی شاراوەی ناوەوە */
+        .secret-loading { text-align: center; display: none; }
+        .spinner {
+            width: 50px; height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.05);
+            border-top: 3px solid #38bdf8;
+            border-radius: 50%; animation: cf-spin 1s linear infinite;
+            margin: 0 auto 15px auto;
+        }
+        @keyframes cf-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
+<body>
+
+    <div id="overlay" class="overlay">
+        <div id="cf-container" class="cf-box">
+            <div class="cf-left">
+                <div id="cf-check" class="cf-checkbox" onclick="triggerCloudflareCheck()">
+                    <div id="cf-spin" class="cf-spinner"></div>
+                    <span id="cf-icon" class="cf-check-icon">✓</span>
+                </div>
+                <span class="cf-text">I am human</span>
+            </div>
+            <div class="cf-right">
+                <svg width="28" height="28" viewBox="0 0 48 48" fill="none"><path d="M22 6C13.1634 6 6 13.1634 6 22C6 30.8366 13.1634 38 22 38C29.6234 38 36.0024 32.6687 37.5847 25.5H29.4153C28.0024 28.6687 25.2234 31 22 31C17.0294 31 13 26.9706 13 22C13 17.0294 17.0294 13 22 13C25.2234 13 28.0024 15.3313 29.4153 18.5H37.5847C36.0024 11.3313 29.6234 6 22 6Z" fill="#F38020"/></svg>
+            </div>
+        </div>
+
+        <div id="secret-container" class="secret-loading">
+            <div class="spinner"></div>
+            <h2 style="margin:0 0 5px 0; color:#fff; font-size: 20px;">Generating Custom VM Machine...</h2>
+            <p style="color:#9ca3af; margin:0; font-size:13px;">Please wait while constructing polymorphic layout</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="logo-area" class="logo-container"></div>
+        
+        <h1>ICCEPH LUA VM OBFUSCATOR</h1>
+        
+        <div class="actions-row">
+            <label for="file-input" class="btn btn-upload">Upload File 📂</label>
+            <input type="file" id="file-input" accept=".lua,.txt">
+            
+            <button class="btn" id="lock-btn" onclick="openVerification()">Protect Script 🔒</button>
+        </div>
+
+        <textarea id="input-code" placeholder="-- Paste your Roblox code (Lua) here or upload a file..."></textarea>
+
+        <span class="output-label">Protected Output Code:</span>
+        <textarea id="output-code" readonly placeholder="-- Your protected script will appear here..."></textarea>
+
+        <div class="footer-buttons">
+            <button class="btn btn-secondary" onclick="copyCode()">Copy Code 📋</button>
+            <button class="btn btn-secondary" onclick="downloadCode()">Download 📥</button>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
