@@ -1,14 +1,241 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iCceph V4</title>
-</head>
-<body>
-
-    <!-- لێرەدا ناوی فایلە جاڤاسکریپتەکەت بنووسە -->
-    <script src="index.js"></script>
     
+    <!-- Search Engine Optimization (SEO) -->
+    <title>icceph | Obfuscator Lua</title>
+    <meta name="description" content="The best Lua obfuscator in the world. Protect your open-source Luau and Lua scripts by turning them into highly secure, virtualized, and uncrackable code. Try icceph today!" />
+    <meta name="keywords" content="best lua obfuscator, lua obfuscator, icceph, luau obfuscator, roblox script protector, lua security, virtualizer" />
+    
+    <!-- Google Verification Code -->
+    <meta name="google-site-verification" content="ZLnlTlYF38XSZF3gUcPOnrRe_7sJ4MtP8U33K78iQvY" />
+    
+    <!-- Browser & Social Media Icon (Favicon) -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MoonVeil-Obfuscator/Assets/main/logo.png">
+    <meta property="og:title" content="icceph | Obfuscator Lua" />
+    <meta property="og:description" content="The best Lua obfuscator in the world. Convert your open-source code into highly protected and secure code instantly." />
+    <meta property="og:url" content="https://icceph.vercel.app" />
+    <meta property="og:image" content="https://raw.githubusercontent.com/MoonVeil-Obfuscator/Assets/main/logo.png" />
+
+    <!-- Tailwind CSS & Cloudflare Turnstile -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>
+    
+    <style>
+        .bg-gradient-animate {
+            background: linear-gradient(-45deg, #09090b, #18181b, #111827, #020617);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body class="w-full bg-zinc-950 min-h-screen text-white font-sans flex flex-col justify-between bg-gradient-animate">
+
+    <!-- Navbar -->
+    <header class="w-full z-20 bg-zinc-900/80 backdrop-blur-md border-b border-white/5 h-[80px] flex items-center px-6">
+        <div class="flex justify-between items-center mx-auto max-w-screen-xl w-full">
+            <div class="flex items-center space-x-4">
+                <!-- Left Sidebar Trigger Menu -->
+                <button onclick="toggleSideMenu()" class="text-gray-400 hover:text-white focus:outline-none p-2 rounded-lg bg-zinc-800/50 border border-white/5">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
+                    </svg>
+                </button>
+                <!-- MoonVeil Assets Logo -->
+                <a href="#" class="flex items-center space-x-2">
+                    <img src="https://raw.githubusercontent.com/MoonVeil-Obfuscator/Assets/main/logo.png" alt="icceph" class="h-9 w-auto">
+                    <span class="text-xl font-bold tracking-wider text-white">icceph</span>
+                </a>
+            </div>
+            <div id="user-profile-nav" class="text-sm font-medium text-gray-400">
+                Welcome to icceph Security
+            </div>
+        </div>
+    </header>
+
+    <!-- Slide-out Sidebar Menu (Hidden by Default) -->
+    <div id="sidebar-menu" class="fixed top-0 left-0 h-full w-64 bg-zinc-900/95 border-r border-white/10 z-50 transform -translate-x-full transition-transform duration-300 backdrop-blur-md flex flex-col justify-between p-6">
+        <div class="space-y-6">
+            <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                <span class="font-bold text-lg text-emerald-400">icceph Navigation</span>
+                <button onclick="toggleSideMenu()" class="text-gray-400 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Navigation Links -->
+            <nav class="space-y-3">
+                <button onclick="switchSection('home')" class="w-full text-left py-3 px-4 rounded-xl bg-zinc-800/50 hover:bg-zinc-800 text-gray-200 transition flex items-center space-x-3">
+                    <span>🏠 Home</span>
+                </button>
+                <button onclick="switchSection('obfuscator')" class="w-full text-left py-3 px-4 rounded-xl bg-zinc-800/50 hover:bg-zinc-800 text-gray-200 transition flex items-center space-x-3">
+                    <span>🔒 Lua Obfuscator</span>
+                </button>
+            </nav>
+        </div>
+        <!-- Logout Button -->
+        <button onclick="handleLogout()" class="w-full bg-red-600/20 hover:bg-red-600 border border-red-500/30 py-3 rounded-xl font-medium text-red-200 transition text-center">
+            Log Out 🚪
+        </button>
+    </div>
+
+    <!-- Main Dynamic Content Wrapper -->
+    <main class="relative flex-grow flex items-center justify-center px-4 py-12">
+        
+        <!-- PHASE 1: Cloudflare Turnstile Verification Card -->
+        <div id="verify-card" class="max-w-md w-full mx-auto p-8 rounded-2xl bg-zinc-900/50 border border-white/10 backdrop-blur-xl shadow-2xl text-center space-y-6">
+            <div class="space-y-2">
+                <h1 class="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-500">Human Verification</h1>
+                <p class="text-sm text-gray-400">Please complete the challenge below to access the panel.</p>
+            </div>
+            <hr class="w-full border-white/5">
+            <div class="cf-turnstile my-2" data-sitekey="0x4AAAAAADxg4Hjpf6W0lYet" data-callback="onVerificationSuccess" data-theme="dark"></div>
+            <div id="success-msg" class="hidden flex items-center space-x-2 text-emerald-400 text-sm bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-xl justify-center">
+                <span>Verification completed successfully!</span>
+            </div>
+        </div>
+
+        <!-- PHASE 2: Authentication System (Hidden by Default) -->
+        <div id="auth-panel" class="hidden max-w-md w-full mx-auto p-8 rounded-2xl bg-zinc-900/60 border border-white/10 backdrop-blur-xl shadow-2xl">
+            
+            <!-- Login Form -->
+            <div id="login-form" class="space-y-5">
+                <h2 class="text-2xl font-bold text-center text-white">Login to icceph</h2>
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400">Username Or email</label>
+                    <input type="text" id="login-email" class="w-full bg-zinc-950 border border-white/10 p-3 rounded-xl text-sm focus:outline-none focus:border-emerald-500" placeholder="example@mail.com">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400">Password</label>
+                    <input type="password" id="login-password" class="w-full bg-zinc-950 border border-white/10 p-3 rounded-xl text-sm focus:outline-none focus:border-emerald-500">
+                </div>
+                <div id="login-error" class="text-xs text-red-400 hidden"></div>
+                <button onclick="handleLogin()" class="w-full bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl font-bold transition">Enter</button>
+                <div class="flex justify-between text-xs text-gray-400 pt-2">
+                    <button onclick="showAuthForm('forget')" class="hover:text-emerald-400 transition">Forget password</button>
+                    <button onclick="showAuthForm('register')" class="hover:text-emerald-400 transition">Create Account</button>
+                </div>
+            </div>
+
+            <!-- Forget Password Form -->
+            <div id="forget-form" class="hidden space-y-5">
+                <h2 class="text-xl font-bold text-center text-red-400">Reset Password</h2>
+                <p class="text-xs text-gray-400 text-center">Enter your email. A verification code will be dispatched from icceph@support.com</p>
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400">Email username</label>
+                    <input type="email" id="forget-email" class="w-full bg-zinc-950 border border-white/10 p-3 rounded-xl text-sm focus:outline-none focus:border-red-500" placeholder="example@mail.com">
+                </div>
+                <button onclick="handleForgetPassword()" class="w-full bg-red-600 hover:bg-red-500 py-3 rounded-xl font-bold transition">Send Code</button>
+                <button onclick="showAuthForm('login')" class="w-full text-xs text-gray-400 hover:text-white block text-center mt-2">Back to Login</button>
+            </div>
+
+            <!-- System Code Verification Form -->
+            <div id="reset-verification-form" class="hidden space-y-5">
+                <h2 class="text-xl font-bold text-center text-yellow-500">Reset Verification</h2>
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400">Code</label>
+                    <input type="text" id="reset-code" class="w-full bg-zinc-950 border border-white/10 p-3 rounded-xl text-sm focus:outline-none focus:border-yellow-500" placeholder="Enter sent code">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400">Password new</label>
+                    <input type="password" id="reset-new-password" class="w-full bg-zinc-950 border border-white/10 p-3 rounded-xl text-sm focus:outline-none focus:border-yellow-500" placeholder="Enter new password">
+                </div>
+                <div id="reset-error" class="text-xs text-red-400 hidden"></div>
+                <button onclick="handleResetPassword()" class="w-full bg-yellow-600 hover:bg-yellow-500 py-3 rounded-xl font-bold transition">Enter</button>
+            </div>
+
+            <!-- Create Account Form -->
+            <div id="register-form" class="hidden space-y-4">
+                <h2 class="text-2xl font-bold text-center text-emerald-400">Create Account</h2>
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400">First name</label>
+                    <input type="text" id="reg-firstname" class="w-full bg-zinc-950 border border-white/10 p-2.5 rounded-xl text-sm focus:outline-none">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400">Username</label>
+                    <input type="text" id="reg-username" class="w-full bg-zinc-950 border border-white/10 p-2.5 rounded-xl text-sm focus:outline-none">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400">Email</label>
+                    <input type="email" id="reg-email" class="w-full bg-zinc-950 border border-white/10 p-2.5 rounded-xl text-sm focus:outline-none">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400">Password</label>
+                    <input type="password" id="reg-password" class="w-full bg-zinc-950 border border-white/10 p-2.5 rounded-xl text-sm focus:outline-none">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400">Password</label>
+                    <input type="password" id="reg-password-confirm" class="w-full bg-zinc-950 border border-white/10 p-2.5 rounded-xl text-sm focus:outline-none" placeholder="Confirm password">
+                </div>
+                <button onclick="handleRegister()" class="w-full bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl font-bold transition mt-2">Create account</button>
+                <button onclick="showAuthForm('login')" class="w-full text-xs text-gray-400 hover:text-white block text-center mt-1">Already have an account? Login</button>
+            </div>
+
+        </div>
+
+        <!-- PHASE 3: Main Dashboard Panel (Post-Login System) -->
+        <div id="main-dashboard" class="hidden w-full max-w-4xl mx-auto px-4">
+            <div class="mb-4 flex justify-between items-center bg-zinc-900/40 p-4 rounded-xl border border-white/5">
+                <span class="text-sm text-gray-400">Active User: <strong id="user-display-name" class="text-emerald-400"></strong></span>
+                <span class="text-xs bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/20 font-mono">icceph Premium v7</span>
+            </div>
+
+            <!-- HOME SECTION -->
+            <div id="home-section" class="bg-zinc-900/50 p-8 rounded-2xl border border-white/10 backdrop-blur-xl space-y-6">
+                <div class="flex items-center space-x-4">
+                    <img src="https://raw.githubusercontent.com/MoonVeil-Obfuscator/Assets/main/logo.png" alt="icceph" class="h-14 w-auto">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">icceph Virtualization Home</h2>
+                        <p class="text-sm text-gray-400">Secure framework management console and source structure summary.</p>
+                    </div>
+                </div>
+                <hr class="border-white/5">
+                <div class="text-sm text-gray-300 space-y-3 leading-relaxed">
+                    <p>🎯 Here, we take open-source Lua/Luau scripts and transform them into complex, heavily protected bytecode formats through <span class="text-emerald-400 font-bold">VM (Virtual Machine)</span> structural layouts.</p>
+                    <p>🔒 This architectural protection prevents unauthorized source decompilation, cracking vectors, and memory dumping attempts across runtime script environments.</p>
+                </div>
+            </div>
+
+            <!-- OBFUSCATOR SECTION -->
+            <div id="obfuscator-section" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Code Input -->
+                <div class="bg-zinc-900/50 p-6 rounded-2xl border border-white/10 backdrop-blur-xl flex flex-col space-y-4">
+                    <h3 class="text-lg font-bold text-gray-200">Input Source Code (Lua)</h3>
+                    <textarea id="input-script" class="w-full flex-grow h-80 bg-zinc-950 p-4 rounded-xl border border-white/5 font-mono text-xs text-gray-300 resize-none focus:outline-none focus:border-emerald-500" placeholder="Paste your open-source script here..."></textarea>
+                    <button id="obfuscate-btn" onclick="obfuscateLuaCode()" class="w-full bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl font-bold transition">Obfuscate via icceph</button>
+                </div>
+                <!-- Obfuscated Output -->
+                <div class="bg-zinc-900/50 p-6 rounded-2xl border border-white/10 backdrop-blur-xl flex flex-col space-y-4">
+                    <h3 class="text-lg font-bold text-emerald-400">icceph Protected Output (VM)</h3>
+                    <textarea id="output-script" readonly class="w-full flex-grow h-80 bg-zinc-950 p-4 rounded-xl border border-white/5 font-mono text-xs text-emerald-300 resize-none focus:outline-none" placeholder="Protected virtualized environment output..."></textarea>
+                    <button id="copy-btn" onclick="copyObfuscatedCode()" class="w-full bg-zinc-800 hover:bg-zinc-700 py-3 rounded-xl font-bold transition border border-white/5">Copy icceph Code</button>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-zinc-950/40 border-t border-white/5 py-6">
+        <div class="mx-auto max-w-screen-xl px-6 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 space-y-2 sm:space-y-0">
+            <div>Copyright © 2026 <span class="text-gray-400 font-medium">icceph Software</span>. All rights reserved.</div>
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-gray-300 transition">Terms</a>
+                <a href="#" class="hover:text-gray-300 transition">Privacy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Linked script source controller -->
+    <script src="index.js"></script>
 </body>
 </html>
