@@ -3,152 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>icceph Security Console - Trusted Lua Obfuscator</title>
+    <title>icceph Security Console</title>
+    
     <!-- Google Site Verification -->
     <meta name="google-site-verification" content="ZLnlTlYF38XSZF3gUcPOnrRe_7sJ4MtP8U33K78iQvY" />
-    <meta name="description" content="Welcome to icceph, the ultimate environment for Lua script protection, optimization, and virtualization. Fully trusted by the community.">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Cloudflare Turnstile -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <meta name="description" content="Welcome to icceph, the ultimate environment for Lua script protection, optimization, and virtualization.">
     
-    <script>
-        function onVerificationSuccess() {
-            const successMsg = document.getElementById("success-msg");
-            const verifyPage = document.getElementById("verify-page");
-            const mainBody = document.getElementById("main-body");
-            const appLayout = document.getElementById("app-layout");
-            const mainDashboard = document.getElementById("main-dashboard");
-
-            if(successMsg) successMsg.classList.remove("hidden");
-            
-            setTimeout(function() {
-                // شاردنەوەی لاپەڕە سپییەکە
-                if(verifyPage) verifyPage.classList.add("hidden");
-                
-                // گۆڕینی ڕەنگی پاشبنەمای سەرەکی بۆ ڕەنگە تۆخەکە و نیشاندانی سایتەکە
-                if(mainBody) {
-                    mainBody.classList.remove("bg-white", "text-zinc-900");
-                    mainBody.classList.add("bg-zinc-950", "text-zinc-100");
-                }
-                
-                if(appLayout) appLayout.classList.remove("hidden");
-                if(mainDashboard) {
-                    mainDashboard.classList.remove("hidden");
-                    mainDashboard.classList.add("grid");
-                }
-            }, 1200);
-        }
-    </script>
+    <!-- Favicon (بۆ ئەوەی لۆگۆی سایتەکەت لە ناو گوگڵ سیرچدا نیشان بدرێت) -->
+    <!-- وێنەی لۆگۆکەت بە ناوی logo.png لە تەنیشت ئەم فایلە دابنێ -->
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <!-- لۆدکردنی Tailwind CSS و Cloudflare Turnstile -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
-<!-- لێرەدا سەرەتا بە سپی دەستپێدەکات -->
 <body id="main-body" class="bg-white text-zinc-900 min-h-screen font-sans antialiased transition-colors duration-500">
 
-    <!-- ١. لاپەڕەی سپی تاقیکردنەوەی مرۆڤ (Cloudflare Screen) -->
+    <!-- ١. لاپەڕەی سپی تاقیکردنەوە (تاکە شت کە هاکەر دەیبینێت و هیچ دیزاینێکی تێدا نییە بۆ دزین) -->
     <div id="verify-page" class="min-h-screen flex flex-col items-center justify-center p-6 space-y-6">
-        <div class="text-center space-y-2">
-            <h1 class="text-2xl font-bold tracking-tight text-zinc-800">Checking your browser before accessing icceph</h1>
-            <p class="text-sm text-zinc-500">Please complete the security check to proceed.</p>
+        
+        <!-- لۆگۆی جوانکاری لەسەر شاشەی لۆدینگ پێش چوونە ژوورەوە -->
+        <div class="flex flex-col items-center space-y-3">
+            <div class="w-16 h-16 rounded-full border-2 border-emerald-500 bg-gradient-to-br from-emerald-400 via-zinc-900 to-zinc-950 shadow-xl flex items-center justify-center font-bold text-white text-xl font-mono animate-pulse">iC</div>
+            <span class="text-2xl font-black tracking-wider text-zinc-900 font-mono">icceph</span>
         </div>
+
+        <div class="text-center space-y-2">
+            <h1 class="text-xl font-bold tracking-tight text-zinc-800">پشکنینی وێبگەڕەکەت پێش ئەوەی بچیتە ناو icceph</h1>
+            <p class="text-xs text-zinc-500">تکایە پشکنینی ئاسایش تەواو بکه بۆ ئەوەی بەردەوام بیت.</p>
+        </div>
+        
+        <!-- سندوقی کلاودفلێیەر -->
         <div class="p-4 bg-zinc-50 rounded-xl border border-zinc-200/80 shadow-sm">
             <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-callback="onVerificationSuccess"></div>
         </div>
-        <p id="success-msg" class="text-emerald-600 font-semibold text-sm hidden flex items-center gap-2">
-            ✓ Success! Redirecting to dashboard...
-        </p>
     </div>
 
-    <!-- ٢. تەواوی ماڵپەڕە سەرەکییەکە (لێرەدا شاردراوەتەوە تا ڤێریفای دەبێت) -->
-    <div id="app-layout" class="hidden min-h-screen flex flex-col justify-between">
-        
-        <!-- HEADER NAVBAR -->
-        <header class="border-b border-zinc-800 bg-zinc-900/50 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-full border-2 border-emerald-500 bg-gradient-to-br from-emerald-400 via-zinc-900 to-zinc-950 shadow-lg flex items-center justify-center font-bold text-white font-mono">iC</div>
-                <span class="text-xl font-black tracking-wider text-white font-mono">icceph</span>
-            </div>
-            <div id="user-profile-nav" class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-black font-bold">I</div>
-        </header>
+    <!-- ٢. ئەم بەشە بە تەواوی بەتاڵە و بە جاڤاسکریپتە قفڵکراوەکەت پڕ دەبێتەوە دوای سەرکەوتن -->
+    <div id="app-layout" class="hidden min-h-screen flex flex-col justify-between"></div>
 
-        <!-- MAIN CONTAINER -->
-        <main class="flex-grow flex items-center justify-center p-6 w-full">
-            <!-- MAIN DASHBOARD -->
-            <div id="main-dashboard" class="hidden w-full max-w-5xl grid-cols-1 md:grid-cols-4 gap-6 items-start">
-                
-                <!-- Sidebar Menu -->
-                <nav class="hidden md:flex flex-col bg-zinc-900/30 p-4 rounded-xl border border-zinc-900 space-y-1">
-                    <button onclick="switchSection('home')" class="w-full text-left py-2.5 px-4 bg-zinc-800/40 rounded-lg text-sm font-medium text-white cursor-pointer">Home Dashboard</button>
-                    <button onclick="switchSection('obfuscator')" class="w-full text-left py-2.5 px-4 hover:bg-zinc-800/60 rounded-lg text-sm font-medium text-zinc-300 cursor-pointer">Lua Obfuscator</button>
-                </nav>
-
-                <div class="md:col-span-3 w-full">
-                    
-                    <!-- HOME SECTION -->
-                    <div id="home-section" class="bg-zinc-900/30 p-8 rounded-2xl border border-zinc-900 space-y-6">
-                        <h2 class="text-2xl font-black text-white">Welcome to <span class="text-emerald-400">icceph Engine</span></h2>
-                        
-                        <div class="bg-gradient-to-r from-emerald-950/20 to-zinc-900 p-6 rounded-xl border border-emerald-500/20 flex items-center gap-4">
-                            <div class="p-3 bg-emerald-500/10 rounded-full border border-emerald-500/30 text-emerald-400">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                            </div>
-                            <div>
-                                <h4 class="text-white font-bold">Are we trusted?</h4>
-                                <p class="text-xs text-zinc-400">Yes, we are highly trusted! Your code protection is our primary target.</p>
-                            </div>
-                        </div>
-
-                        <!-- تێکست بۆ گوگڵ -->
-                        <div class="text-xs text-zinc-400 space-y-2 max-h-96 overflow-y-auto bg-zinc-950/50 p-4 rounded-xl border border-zinc-900 font-mono leading-relaxed">
-                            <h3 class="text-emerald-400 font-bold mb-2">--- ICCEPH LUA SECURITY CORE VIRTUALIZATION INFRASTRUCTURE ---</h3>
-                            <p class="text-white">Welcome to icceph, the ultimate next-generation environment for Lua script protection, optimization, and virtualization.</p>
-                            <p>Our main mission is to ensure that your intellectual property remains safe from malicious decompilers, dumpers, and unauthorized execution controllers.</p>
-                            <p>When you input a script into our engine, it undergoes a heavy multi-layered process that transforms plaintext source code into highly secure bytecode chunks.</p>
-                            <p class="text-emerald-400 font-bold">Are we trusted? YES, WE ARE FULLY TRUSTED BY THE WHOLE COMMUNITY ALL OVER THE WORLD!</p>
-                            <p>[Line 1] System Protection Node: Verifying execution pipelines and environment global integrity.</p>
-                            <p>[Line 2] System Protection Node: Encrypting string resources and mangling variable definitions.</p>
-                            <p>[Line 3] System Protection Node: Injecting multi-layered virtualization garbage descriptors.</p>
-                            <p>[Line 4] System Protection Node: Running local sandbox validation routines.</p>
-                            <p>[Line 5] System Protection Node: Stabilizing memory heaps and disabling hook checks.</p>
-                        </div>
-
-                        <button onclick="switchSection('obfuscator')" class="bg-emerald-600 hover:bg-emerald-500 px-5 py-2.5 rounded-xl font-semibold text-xs text-white cursor-pointer transition">Open Obfuscator Interface →</button>
-                    </div>
-
-                    <!-- LUA OBFUSCATOR SECTION -->
-                    <div id="obfuscator-section" class="hidden bg-zinc-900/30 p-6 md:p-8 rounded-2xl border border-zinc-900 space-y-6">
-                        <div class="flex justify-between items-center border-b border-zinc-800 pb-4">
-                            <div>
-                                <h2 class="text-xl font-black text-white">icceph Lua Obfuscator</h2>
-                                <p class="text-xs text-zinc-400 mt-0.5">Paste code or upload your local scripts</p>
-                            </div>
-                            <label class="bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 px-4 py-2 rounded-xl text-xs font-semibold text-white transition cursor-pointer flex items-center gap-1.5 shadow-md">
-                                📁 Upload File
-                                <input type="file" id="lua-file-input" accept=".lua,.txt" class="hidden" onchange="handleFileUpload(event)">
-                            </label>
-                        </div>
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                            <div class="space-y-1.5">
-                                <label class="text-xs font-bold text-zinc-500 font-mono">PASTE CODE HERE</label>
-                                <textarea id="input-script" placeholder="-- Paste your raw script chunk here..." class="w-full h-72 bg-zinc-950 border border-zinc-800 p-4 rounded-xl text-xs font-mono text-emerald-400 outline-none resize-none"></textarea>
-                            </div>
-                            <div class="space-y-1.5">
-                                <label class="text-xs font-bold text-zinc-500 font-mono">PROTECTED OUTPUT BYTECODE</label>
-                                <textarea id="output-script" readonly placeholder="-- Obfuscated code appears here instantly..." class="w-full h-72 bg-zinc-950 border border-zinc-800 p-4 rounded-xl text-xs font-mono text-zinc-400 outline-none resize-none"></textarea>
-                            </div>
-                        </div>
-                        <div class="flex flex-col sm:flex-row gap-3 pt-2">
-                            <button onclick="obfuscateLuaCode()" class="flex-grow bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl font-bold text-sm text-white transition cursor-pointer shadow-lg">Obfuscate</button>
-                            <button onclick="copyObfuscatedCode()" id="copy-btn" class="bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 px-6 py-3 rounded-xl font-bold text-sm text-zinc-200 cursor-pointer transition">Copy</button>
-                            <button onclick="downloadObfuscatedFile()" class="bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded-xl font-bold text-sm text-white transition cursor-pointer shadow-md">💾 Download File</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- بەستنەوە بە فایلی دەرەکی index.js -->
+    <!-- ٣. بەستنەوەی فایلی جاڤاسکریپتە قفڵکراوەکەت (index.js) -->
     <script src="index.js"></script>
+
 </body>
 </html>
