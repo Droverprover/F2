@@ -12,30 +12,54 @@
     <!-- Cloudflare Turnstile -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     
-    <!-- لێرەدا فەنکشنی لۆدکردنی سایتەکەمان داناوە بۆ ئەوەی کێشەی بلۆکبوونی نەمێنێت -->
     <script>
         function onVerificationSuccess() {
             const successMsg = document.getElementById("success-msg");
-            const verifyCard = document.getElementById("verify-card");
+            const verifyPage = document.getElementById("verify-page");
+            const mainBody = document.getElementById("main-body");
+            const appLayout = document.getElementById("app-layout");
             const mainDashboard = document.getElementById("main-dashboard");
-            const userProfile = document.getElementById("user-profile-nav");
 
             if(successMsg) successMsg.classList.remove("hidden");
             
             setTimeout(function() {
-                if(verifyCard) verifyCard.classList.add("hidden");
+                // شاردنەوەی لاپەڕە سپییەکە
+                if(verifyPage) verifyPage.classList.add("hidden");
+                
+                // گۆڕینی ڕەنگی پاشبنەمای سەرەکی بۆ ڕەنگە تۆخەکە و نیشاندانی سایتەکە
+                if(mainBody) {
+                    mainBody.classList.remove("bg-white", "text-zinc-900");
+                    mainBody.classList.add("bg-zinc-950", "text-zinc-100");
+                }
+                
+                if(appLayout) appLayout.classList.remove("hidden");
                 if(mainDashboard) {
                     mainDashboard.classList.remove("hidden");
                     mainDashboard.classList.add("grid");
                 }
-                if(userProfile) userProfile.classList.remove("hidden");
-            }, 1000);
+            }, 1200);
         }
     </script>
 </head>
-<body class="bg-zinc-950 text-zinc-100 min-h-screen font-sans antialiased">
+<!-- لێرەدا سەرەتا بە سپی دەستپێدەکات -->
+<body id="main-body" class="bg-white text-zinc-900 min-h-screen font-sans antialiased transition-colors duration-500">
 
-    <div class="min-h-screen flex flex-col justify-between">
+    <!-- ١. لاپەڕەی سپی تاقیکردنەوەی مرۆڤ (Cloudflare Screen) -->
+    <div id="verify-page" class="min-h-screen flex flex-col items-center justify-center p-6 space-y-6">
+        <div class="text-center space-y-2">
+            <h1 class="text-2xl font-bold tracking-tight text-zinc-800">Checking your browser before accessing icceph</h1>
+            <p class="text-sm text-zinc-500">Please complete the security check to proceed.</p>
+        </div>
+        <div class="p-4 bg-zinc-50 rounded-xl border border-zinc-200/80 shadow-sm">
+            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-callback="onVerificationSuccess"></div>
+        </div>
+        <p id="success-msg" class="text-emerald-600 font-semibold text-sm hidden flex items-center gap-2">
+            ✓ Success! Redirecting to dashboard...
+        </p>
+    </div>
+
+    <!-- ٢. تەواوی ماڵپەڕە سەرەکییەکە (لێرەدا شاردراوەتەوە تا ڤێریفای دەبێت) -->
+    <div id="app-layout" class="hidden min-h-screen flex flex-col justify-between">
         
         <!-- HEADER NAVBAR -->
         <header class="border-b border-zinc-800 bg-zinc-900/50 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
@@ -43,24 +67,11 @@
                 <div class="w-10 h-10 rounded-full border-2 border-emerald-500 bg-gradient-to-br from-emerald-400 via-zinc-900 to-zinc-950 shadow-lg flex items-center justify-center font-bold text-white font-mono">iC</div>
                 <span class="text-xl font-black tracking-wider text-white font-mono">icceph</span>
             </div>
-            <div id="user-profile-nav" class="hidden relative">
-                <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-black font-bold">I</div>
-            </div>
+            <div id="user-profile-nav" class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-black font-bold">I</div>
         </header>
 
         <!-- MAIN CONTAINER -->
         <main class="flex-grow flex items-center justify-center p-6 w-full">
-            
-            <!-- VERIFICATION CARD -->
-            <div id="verify-card" class="w-full max-w-md bg-zinc-900/40 p-8 rounded-2xl border border-zinc-800 text-center space-y-6 shadow-xl">
-                <h1 class="text-3xl font-extrabold text-white tracking-tight">Human Verification</h1>
-                <div class="flex justify-center py-4">
-                    <!-- کلیلە فەرمییەکە یان تاقیکارییەکە لێرەیە -->
-                    <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-callback="onVerificationSuccess"></div>
-                </div>
-                <p id="success-msg" class="text-emerald-400 font-medium text-sm hidden">Verification Success! Loading Console...</p>
-            </div>
-
             <!-- MAIN DASHBOARD -->
             <div id="main-dashboard" class="hidden w-full max-w-5xl grid-cols-1 md:grid-cols-4 gap-6 items-start">
                 
