@@ -11,6 +11,27 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Cloudflare Turnstile -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    
+    <!-- لێرەدا فەنکشنی لۆدکردنی سایتەکەمان داناوە بۆ ئەوەی کێشەی بلۆکبوونی نەمێنێت -->
+    <script>
+        function onVerificationSuccess() {
+            const successMsg = document.getElementById("success-msg");
+            const verifyCard = document.getElementById("verify-card");
+            const mainDashboard = document.getElementById("main-dashboard");
+            const userProfile = document.getElementById("user-profile-nav");
+
+            if(successMsg) successMsg.classList.remove("hidden");
+            
+            setTimeout(function() {
+                if(verifyCard) verifyCard.classList.add("hidden");
+                if(mainDashboard) {
+                    mainDashboard.classList.remove("hidden");
+                    mainDashboard.classList.add("grid");
+                }
+                if(userProfile) userProfile.classList.remove("hidden");
+            }, 1000);
+        }
+    </script>
 </head>
 <body class="bg-zinc-950 text-zinc-100 min-h-screen font-sans antialiased">
 
@@ -19,7 +40,6 @@
         <!-- HEADER NAVBAR -->
         <header class="border-b border-zinc-800 bg-zinc-900/50 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <!-- لۆگۆ دیجیتاڵییە جوانەکە لێرەدایە -->
                 <div class="w-10 h-10 rounded-full border-2 border-emerald-500 bg-gradient-to-br from-emerald-400 via-zinc-900 to-zinc-950 shadow-lg flex items-center justify-center font-bold text-white font-mono">iC</div>
                 <span class="text-xl font-black tracking-wider text-white font-mono">icceph</span>
             </div>
@@ -35,13 +55,14 @@
             <div id="verify-card" class="w-full max-w-md bg-zinc-900/40 p-8 rounded-2xl border border-zinc-800 text-center space-y-6 shadow-xl">
                 <h1 class="text-3xl font-extrabold text-white tracking-tight">Human Verification</h1>
                 <div class="flex justify-center py-4">
+                    <!-- کلیلە فەرمییەکە یان تاقیکارییەکە لێرەیە -->
                     <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-callback="onVerificationSuccess"></div>
                 </div>
                 <p id="success-msg" class="text-emerald-400 font-medium text-sm hidden">Verification Success! Loading Console...</p>
             </div>
 
             <!-- MAIN DASHBOARD -->
-            <div id="main-dashboard" class="hidden w-full max-w-5xl grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
+            <div id="main-dashboard" class="hidden w-full max-w-5xl grid-cols-1 md:grid-cols-4 gap-6 items-start">
                 
                 <!-- Sidebar Menu -->
                 <nav class="hidden md:flex flex-col bg-zinc-900/30 p-4 rounded-xl border border-zinc-900 space-y-1">
