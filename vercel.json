@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/luaobfuscator/:path*",
+      "destination": "https://api.luaobfuscator.com/:path*"
+    }
+  ]
+}
