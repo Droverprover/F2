@@ -3,45 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>icceph Security Console - Trusted Lua Obfuscator</title>
     
-    <!-- 🚀 لۆگۆی نوێی سایتەکەت لێرە ناسێنراوە -->
-    <link rel="icon" href="./favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="./favicon.png">
+    <title>icceph | Obfuscator Lua</title>
+    <link rel="icon" type="image/png" href="https://icceph.vercel.app/logo.png" />
 
-    <!-- کلیلەکەی گوگڵ بۆ ناسینەوەی سایتەکەت -->
+    <!-- SEO Metadata -->
+    <meta name="description" content="iCceph is an advanced, high-performance Lua virtualization and obfuscation platform." />
     <meta name="google-site-verification" content="ZLnlTlYF38XSZF3gUcPOnrRe_7sJ4MtP8U33K78iQvY" />
 
-    <!-- Tailwind CSS بۆ دیزاینی لاپەڕەکە -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- سیستەمی پاراستنی Cloudflare Turnstile -->
+    <!-- 🔒 1. هێنانەکردنی سکریپتی فەرمی کڵاودفلێر تێرنستایل -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-</head>
-<body id="main-body" class="bg-white text-zinc-900 min-h-screen flex flex-col transition-colors duration-500 font-sans antialiased selection:bg-emerald-500/30">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #0f111a;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    <!-- بەشی پشکنینی سەرەتایی Cloudflare (Verify Page) -->
-    <div id="verify-page" class="flex-grow flex flex-col items-center justify-center p-6 text-center space-y-6 max-w-sm mx-auto">
-        <div class="space-y-2 animate-fade-in">
-            <h1 class="text-3xl font-black tracking-tight text-zinc-900">Security Check</h1>
-            <p class="text-sm text-zinc-500 font-medium">Please complete the verification below to access icceph Security Console.</p>
-        </div>
+        /* 🔒 سندوقی پشکنینی کڵاودفلێر */
+        #security-gate {
+            background: #161925;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        #security-gate h2 { margin-bottom: 10px; font-size: 22px; color: #00ffcc; }
+        #security-gate p { color: #a0a5b5; margin-bottom: 20px; font-size: 14px; }
+
+        /* 🌐 پێکهاتەی وێبسایتەکە (سەرەتا شاردراوەیە تا تێرنستایل سەرکەوتووە دەبێت) */
+        #main-wrapper {
+            display: none; 
+            width: 100vw;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .top-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: #11131c;
+            border-bottom: 1px solid #1f2335;
+        }
+        .logo { font-size: 24px; font-weight: bold; color: #00ffcc; display: flex; align-items: center; gap: 10px; }
+        .logo img { width: 30px; height: 30px; border-radius: 50%; }
+
+        .menu-toggle { display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
+        .menu-toggle .line { width: 30px; height: 3px; background-color: #ffffff; border-radius: 2px; }
+
+        .main-container { padding: 40px; flex: 1; }
+        .app-section { display: none; }
+        .active-section { display: block !important; }
+
+        .textarea-container { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+        textarea { width: 100%; height: 180px; background: #161925; border: 1px solid #1f2335; border-radius: 8px; color: #00ffaa; padding: 15px; resize: none; }
+        .action-btn { background: #00ffcc; color: #0b0c10; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
+        .hidden { display: none !important; }
+        #loading-overlay { color: #00ffcc; margin-top: 10px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- 🔒 بەشی یەکەم: دەروازەی ئەمنی (Turnstile Security Gate) -->
+    <div id="security-gate">
+        <h2>Security Verification</h2>
+        <p>Please check the box below to unlock iCceph Console.</p>
         
-        <!-- سندوقی ڤێریفای Cloudflare -->
-        <div class="bg-zinc-50 border border-zinc-200 p-4 rounded-2xl shadow-sm w-full flex justify-center">
-            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-callback="cloudflareCallback"></div>
+        <!-- 🛠️ لێرەدا دەبێت Site Key ی خۆت لە کڵاودفلێر دابنێیت -->
+        <div class="cf-turnstile" 
+             data-sitekey="1x00000000000000000000AA" 
+             data-callback="onTurnstileSuccess">
         </div>
-        
-        <p class="text-xs text-zinc-400 font-medium flex items-center justify-center gap-1.5">
-            <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-            Secured by Cloudflare Turnstile
-        </p>
     </div>
 
-    <!-- ئەم بەشە دوای سەرکەوتنی ڤێریفای بە جافاسکرێپت پڕ دەبێتەوە -->
-    <div id="app-layout" class="min-h-screen flex flex-col hidden"></div>
+    <!-- 🌐 بەشی دووەم: تەواوی وێبسایتەکە دوای دڵنیابوونەوە -->
+    <div id="main-wrapper">
+        <header class="top-navbar">
+            <div class="logo">
+                <img src="https://icceph.vercel.app/logo.png" alt="Logo">
+                <span>iCceph</span>
+            </div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </header>
 
-    <!-- بەستنەوەی فایلی جافاسکرێپتی سەرەکی -->
-    <script src="./index.js"></script>
+        <main class="main-container">
+            <div id="home-section" class="app-section active-section">
+                <h2>Home Console</h2>
+                <p style="color: #a0a5b5; margin-top: 10px;">Verification completed successfully. Welcome back!</p>
+            </div>
+
+            <div id="obfuscator-section" class="app-section">
+                <h2>Custom VM Obfuscator</h2>
+                <div class="textarea-container">
+                    <textarea id="input-script" placeholder="Paste your Lua Script code here..."></textarea>
+                    <button class="action-btn" onclick="startLocalObfuscation()">Encrypt & Protect Script</button>
+                    <div id="loading-overlay" class="hidden">Processing Encryption Layer...</div>
+                    <textarea id="output-script" placeholder="Protected code output will appear here..." readonly></textarea>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 🔑 کاتێک پشکنینی کڵاودفلێر سەرکەوتوو دەبێت، ئەم فەنکشنە خۆکار ڕەن دەبێت
+        function onTurnstileSuccess(token) {
+            console.log("Turnstile Token Generated: " + token);
+            
+            // شاردنەوەی گەیتی پاراستن
+            document.getElementById('security-gate').style.display = 'none';
+            
+            // گۆڕینی شێوازی باکگراوند بۆ پڕ بە شاشە و نیشاندانی سایتەکە
+            document.body.style.alignItems = 'stretch';
+            document.getElementById('main-wrapper').style.display = 'flex';
+        }
+
+        function toggleMenu() {
+            const home = document.getElementById('home-section');
+            const obf = document.getElementById('obfuscator-section');
+            if (home.classList.contains('active-section')) {
+                home.classList.remove('active-section');
+                obf.classList.add('active-section');
+            } else {
+                obf.classList.remove('active-section');
+                home.classList.add('active-section');
+            }
+        }
+    </script>
+    <script src="index.js"></script>
 </body>
 </html>
