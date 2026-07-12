@@ -1,151 +1,227 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
+    <!-- 1x00000000000000000000AA Cloudflare Turnstile Framework -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>icceph | Obfuscator Lua</title>
-    <link rel="icon" type="image/png" href="https://icceph.vercel.app/logo.png" />
-
-    <!-- SEO Metadata -->
-    <meta name="description" content="iCceph is an advanced, high-performance Lua virtualization and obfuscation platform." />
-    <meta name="google-site-verification" content="ZLnlTlYF38XSZF3gUcPOnrRe_7sJ4MtP8U33K78iQvY" />
-
-    <!-- 🔒 1. هێنانەکردنی سکریپتی فەرمی کڵاودفلێر تێرنستایل -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <!-- Google Search Engine Verification & SEO -->
+    <meta name="google-site-verification" content="ZLnlTlYF38XSZF3gUcPOnrRe_7sJ4MtP8U33K78iQvY">
+    <meta name="description" content="Best lua Obfuscator Obfuscator VM Custom VM LuaU obfuscate Roblox Exploit 2k viewer Website">
+    <meta name="author" content="Dragon">
+    
+    <title>icceph | LuaU Obfuscator</title>
     
     <style>
+        /* ---------- CSS Variables ---------- */
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #111827;
+            --accent: #3b82f6;
+            --accent-hover: #1d4ed8;
+            --text-color: #f3f4f6;
+            --border-color: #1f2937;
+            --textarea-bg: #030712;
+        }
+
+        /* ---------- Global Reset & Layout ---------- */
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         body {
-            background-color: #0f111a;
-            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
+        }
+
+        /* ---------- Top Header & Logo Area ---------- */
+        header {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .logo-text {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            text-transform: none;
+        }
+
+        .logo-text span {
+            color: #38bdf8; /* ڕەنگی شینی گەش بۆ پیتەکانی iC */
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        .logo-sub {
+            font-size: 11px;
+            color: #9ca3af;
+            letter-spacing: 1px;
+            margin-top: -2px;
+        }
+
+        /* ---------- Main Content Container ---------- */
+        .main-wrapper {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            width: 100%;
         }
 
-        /* 🔒 سندوقی پشکنینی کڵاودفلێر */
-        #security-gate {
-            background: #161925;
+        .container {
+            background-color: var(--card-bg);
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 750px;
+            border: 1px solid var(--border-color);
+        }
+
+        h1 {
             text-align: center;
-            max-width: 400px;
-            width: 90%;
-        }
-        #security-gate h2 { margin-bottom: 10px; font-size: 22px; color: #00ffcc; }
-        #security-gate p { color: #a0a5b5; margin-bottom: 20px; font-size: 14px; }
-
-        /* 🌐 پێکهاتەی وێبسایتەکە (سەرەتا شاردراوەیە تا تێرنستایل سەرکەوتووە دەبێت) */
-        #main-wrapper {
-            display: none; 
-            width: 100vw;
-            height: 100vh;
-            flex-direction: column;
+            color: #38bdf8;
+            margin-bottom: 25px;
+            font-size: 28px;
+            letter-spacing: 1px;
         }
 
-        .top-navbar {
+        /* ---------- Button Rows ---------- */
+        .action-row {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            background: #11131c;
-            border-bottom: 1px solid #1f2335;
+            gap: 15px;
+            margin-bottom: 20px;
         }
-        .logo { font-size: 24px; font-weight: bold; color: #00ffcc; display: flex; align-items: center; gap: 10px; }
-        .logo img { width: 30px; height: 30px; border-radius: 50%; }
 
-        .menu-toggle { display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
-        .menu-toggle .line { width: 30px; height: 3px; background-color: #ffffff; border-radius: 2px; }
+        .btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            flex: 1;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
 
-        .main-container { padding: 40px; flex: 1; }
-        .app-section { display: none; }
-        .active-section { display: block !important; }
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
 
-        .textarea-container { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
-        textarea { width: 100%; height: 180px; background: #161925; border: 1px solid #1f2335; border-radius: 8px; color: #00ffaa; padding: 15px; resize: none; }
-        .action-btn { background: #00ffcc; color: #0b0c10; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
-        .hidden { display: none !important; }
-        #loading-overlay { color: #00ffcc; margin-top: 10px; font-weight: bold; }
+        .btn-upload {
+            background-color: #059669;
+        }
+        .btn-upload:hover {
+            background-color: #047857;
+        }
+
+        .btn-secondary {
+            background-color: #4b5563;
+        }
+        .btn-secondary:hover {
+            background-color: #374151;
+        }
+
+        /* ---------- File input hidden ---------- */
+        #file-input {
+            display: none;
+        }
+
+        /* ---------- Textareas ---------- */
+        textarea {
+            width: 100%;
+            height: 180px;
+            background-color: var(--textarea-bg);
+            color: #34d399;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px;
+            box-sizing: border-box;
+            font-family: 'Consolas', 'Courier New', monospace;
+            resize: vertical;
+            margin-bottom: 15px;
+            direction: ltr;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .output-label {
+            margin-bottom: 8px;
+            display: block;
+            font-weight: bold;
+            color: #9ca3af;
+        }
+
+        /* ---------- Footer buttons ---------- */
+        .footer-actions {
+            display: flex;
+            gap: 12px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- 🔒 بەشی یەکەم: دەروازەی ئەمنی (Turnstile Security Gate) -->
-    <div id="security-gate">
-        <h2>Security Verification</h2>
-        <p>Please check the box below to unlock iCceph Console.</p>
-        
-        <!-- 🛠️ لێرەدا دەبێت Site Key ی خۆت لە کڵاودفلێر دابنێیت -->
-        <div class="cf-turnstile" 
-             data-sitekey="1x00000000000000000000AA" 
-             data-callback="onTurnstileSuccess">
+<!-- وێناکردنی لۆگۆ لە دەستە چەپی سەرەوە -->
+<header>
+    <div class="logo-container">
+        <div class="logo-text"><span>iC</span>ceph</div>
+        <div class="logo-sub">Powered By Dragon</div>
+    </div>
+</header>
+
+<!-- ناوەڕۆکی سەرەکی ماڵپەڕەکە -->
+<div class="main-wrapper">
+    <div class="container">
+        <h1>🔐 ICCEPH LUA CUSTOM VM OBFUSCATOR</h1>
+
+        <!-- Top action row: upload + obfuscate -->
+        <div class="action-row">
+            <label for="file-input" class="btn btn-upload">📂 Upload File</label>
+            <input type="file" id="file-input" accept=".lua,.txt">
+            <button class="btn" id="obfuscate-btn">🔒 Obfuscate Code</button>
+        </div>
+
+        <!-- Input code area -->
+        <textarea id="input-code" placeholder="-- Paste your Lua code here or upload a .lua / .txt file ..."></textarea>
+
+        <!-- Output label and obfuscated code area -->
+        <span class="output-label">⬇️ Obfuscated Code (Universal VM Support):</span>
+        <textarea id="output-code" readonly placeholder="-- The protected VM code will appear here ..."></textarea>
+
+        <!-- Footer: copy + download -->
+        <div class="footer-actions">
+            <button class="btn btn-secondary" id="copy-btn">📋 Copy</button>
+            <button class="btn btn-secondary" id="download-btn">📥 Download</button>
         </div>
     </div>
+</div>
 
-    <!-- 🌐 بەشی دووەم: تەواوی وێبسایتەکە دوای دڵنیابوونەوە -->
-    <div id="main-wrapper">
-        <header class="top-navbar">
-            <div class="logo">
-                <img src="https://icceph.vercel.app/logo.png" alt="Logo">
-                <span>iCceph</span>
-            </div>
-            <div class="menu-toggle" onclick="toggleMenu()">
-                <div class="line"></div>
-                <div class="line"></div>
-            </div>
-        </header>
-
-        <main class="main-container">
-            <div id="home-section" class="app-section active-section">
-                <h2>Home Console</h2>
-                <p style="color: #a0a5b5; margin-top: 10px;">Verification completed successfully. Welcome back!</p>
-            </div>
-
-            <div id="obfuscator-section" class="app-section">
-                <h2>Custom VM Obfuscator</h2>
-                <div class="textarea-container">
-                    <textarea id="input-script" placeholder="Paste your Lua Script code here..."></textarea>
-                    <button class="action-btn" onclick="startLocalObfuscation()">Encrypt & Protect Script</button>
-                    <div id="loading-overlay" class="hidden">Processing Encryption Layer...</div>
-                    <textarea id="output-script" placeholder="Protected code output will appear here..." readonly></textarea>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <script>
-        // 🔑 کاتێک پشکنینی کڵاودفلێر سەرکەوتوو دەبێت، ئەم فەنکشنە خۆکار ڕەن دەبێت
-        function onTurnstileSuccess(token) {
-            console.log("Turnstile Token Generated: " + token);
-            
-            // شاردنەوەی گەیتی پاراستن
-            document.getElementById('security-gate').style.display = 'none';
-            
-            // گۆڕینی شێوازی باکگراوند بۆ پڕ بە شاشە و نیشاندانی سایتەکە
-            document.body.style.alignItems = 'stretch';
-            document.getElementById('main-wrapper').style.display = 'flex';
-        }
-
-        function toggleMenu() {
-            const home = document.getElementById('home-section');
-            const obf = document.getElementById('obfuscator-section');
-            if (home.classList.contains('active-section')) {
-                home.classList.remove('active-section');
-                obf.classList.add('active-section');
-            } else {
-                obf.classList.remove('active-section');
-                home.classList.add('active-section');
-            }
-        }
-    </script>
-    <script src="index.js"></script>
+<!-- بەستەری فایلی جاڤاسکریپتەکەت (script.js) -->
+<script src="script.js"></script>
 </body>
 </html>
