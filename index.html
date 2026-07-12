@@ -11,7 +11,7 @@
     
     <title>icceph | LuaU Obfuscator</title>
     
-    <!-- سکریپتی فەرمی Cloudflare Turnstile -->
+    <!-- Cloudflare Turnstile Framework -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     
     <style>
@@ -23,21 +23,23 @@
             --text-color: #f3f4f6;
             --border-color: #1f2937;
             --textarea-bg: #030712;
+            --sidebar-bg: #0f172a;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
+        /* ---------- Header & Menu Button ---------- */
         header {
             width: 100%;
             max-width: 1200px;
@@ -45,6 +47,22 @@
             display: flex;
             justify-content: flex-start;
             align-items: center;
+            gap: 15px;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 32px;
+            cursor: pointer;
+            line-height: 1;
+            padding: 5px;
+            transition: color 0.2s;
+        }
+
+        .menu-btn:hover {
+            color: #38bdf8;
         }
 
         .logo-container { display: flex; flex-direction: column; align-items: flex-start; }
@@ -52,6 +70,79 @@
         .logo-text span { color: #38bdf8; text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
         .logo-sub { font-size: 11px; color: #9ca3af; letter-spacing: 1px; margin-top: -2px; }
 
+        /* ---------- Sidebar Navigation ---------- */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            box-shadow: 10px 0 30px rgba(0,0,0,0.7);
+            z-index: 1000;
+            transition: left 0.3s ease;
+            padding: 30px 20px;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 24px;
+            float: right;
+            cursor: pointer;
+        }
+
+        .sidebar-title {
+            font-size: 20px;
+            color: #38bdf8;
+            margin-bottom: 30px;
+            font-weight: bold;
+            clear: both;
+            padding-top: 10px;
+        }
+
+        .nav-item {
+            margin-bottom: 25px;
+        }
+
+        .nav-item h3 {
+            color: #ffffff;
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item p {
+            color: #9ca3af;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* Dark Overlay when sidebar is open */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* ---------- Main Content Container ---------- */
         .main-wrapper {
             flex: 1;
             display: flex;
@@ -70,9 +161,8 @@
             border: 1px solid var(--border-color);
         }
 
-        h1 { text-align: center; color: #38bdf8; margin-bottom: 25px; font-size: 28px; }
+        h1 { text-align: center; color: #38bdf8; margin-bottom: 25px; font-size: 26px; }
 
-        /* سندوقی کاپچای کڵاودفلێر */
         .turnstile-container {
             display: flex;
             justify-content: center;
@@ -126,18 +216,39 @@
 </head>
 <body>
 
+<!-- Overlay Background -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Sidebar Menu Area -->
+<nav class="sidebar" id="sidebar">
+    <button class="close-btn" id="close-sidebar">✕</button>
+    <div class="sidebar-title">🧭 Navigation Menu</div>
+    
+    <div class="nav-item">
+        <h3>🏠 Home</h3>
+        <p>Welcome to iCceph! We convert your raw Lua scripts into highly secure, custom Virtual Machine (VM) code. Your scripts are fully protected against decompilers and work perfectly on all mobile/desktop executors.</p>
+    </div>
+    
+    <div class="nav-item">
+        <h3>⚡ LuaU Obfuscator</h3>
+        <p>Advanced commercial-grade obfuscation engine tailored specifically for LuaU environments. Encrypts constants, randomizes variables, and embeds a dynamic execution thread.</p>
+    </div>
+</nav>
+
+<!-- Top Header with Menu Trigger (=) -->
 <header>
+    <button class="menu-btn" id="open-sidebar">=</button>
     <div class="logo-container">
         <div class="logo-text"><span>iC</span>ceph</div>
         <div class="logo-sub">Powered By Dragon</div>
     </div>
 </header>
 
+<!-- Main Obfuscator Layout -->
 <div class="main-wrapper">
     <div class="container">
         <h1>🔐 ICCEPH LUA CUSTOM VM OBFUSCATOR</h1>
 
-        <!-- لێرە سندوقی Cloudflare Turnstile بە ڕاستی پیشان دەدرێت -->
         <div class="turnstile-container">
             <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA"></div>
         </div>
@@ -160,6 +271,7 @@
     </div>
 </div>
 
+<!-- Linking the External JavaScript File -->
 <script src="script.js"></script>
 </body>
 </html>
