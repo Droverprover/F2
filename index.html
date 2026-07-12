@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-    <!-- 1x00000000000000000000AA Cloudflare Turnstile Framework -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -12,8 +11,10 @@
     
     <title>icceph | LuaU Obfuscator</title>
     
+    <!-- سکریپتی فەرمی Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    
     <style>
-        /* ---------- CSS Variables ---------- */
         :root {
             --bg-color: #0b0f19;
             --card-bg: #111827;
@@ -24,10 +25,7 @@
             --textarea-bg: #030712;
         }
 
-        /* ---------- Global Reset & Layout ---------- */
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -40,7 +38,6 @@
             min-height: 100vh;
         }
 
-        /* ---------- Top Header & Logo Area ---------- */
         header {
             width: 100%;
             max-width: 1200px;
@@ -50,33 +47,11 @@
             align-items: center;
         }
 
-        .logo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
+        .logo-container { display: flex; flex-direction: column; align-items: flex-start; }
+        .logo-text { font-size: 26px; font-weight: 800; color: #ffffff; }
+        .logo-text span { color: #38bdf8; text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
+        .logo-sub { font-size: 11px; color: #9ca3af; letter-spacing: 1px; margin-top: -2px; }
 
-        .logo-text {
-            font-size: 26px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            color: #ffffff;
-            text-transform: none;
-        }
-
-        .logo-text span {
-            color: #38bdf8; /* ڕەنگی شینی گەش بۆ پیتەکانی iC */
-            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
-        }
-
-        .logo-sub {
-            font-size: 11px;
-            color: #9ca3af;
-            letter-spacing: 1px;
-            margin-top: -2px;
-        }
-
-        /* ---------- Main Content Container ---------- */
         .main-wrapper {
             flex: 1;
             display: flex;
@@ -95,20 +70,16 @@
             border: 1px solid var(--border-color);
         }
 
-        h1 {
-            text-align: center;
-            color: #38bdf8;
-            margin-bottom: 25px;
-            font-size: 28px;
-            letter-spacing: 1px;
-        }
+        h1 { text-align: center; color: #38bdf8; margin-bottom: 25px; font-size: 28px; }
 
-        /* ---------- Button Rows ---------- */
-        .action-row {
+        /* سندوقی کاپچای کڵاودفلێر */
+        .turnstile-container {
             display: flex;
-            gap: 15px;
+            justify-content: center;
             margin-bottom: 20px;
         }
+
+        .action-row { display: flex; gap: 15px; margin-bottom: 20px; }
 
         .btn {
             background-color: var(--accent);
@@ -128,31 +99,13 @@
             gap: 8px;
         }
 
-        .btn:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-1px);
-        }
+        .btn:hover { background-color: var(--accent-hover); transform: translateY(-1px); }
+        .btn-upload { background-color: #059669; }
+        .btn-upload:hover { background-color: #047857; }
+        .btn-secondary { background-color: #4b5563; }
+        .btn-secondary:hover { background-color: #374151; }
+        #file-input { display: none; }
 
-        .btn-upload {
-            background-color: #059669;
-        }
-        .btn-upload:hover {
-            background-color: #047857;
-        }
-
-        .btn-secondary {
-            background-color: #4b5563;
-        }
-        .btn-secondary:hover {
-            background-color: #374151;
-        }
-
-        /* ---------- File input hidden ---------- */
-        #file-input {
-            display: none;
-        }
-
-        /* ---------- Textareas ---------- */
         textarea {
             width: 100%;
             height: 180px;
@@ -161,32 +114,18 @@
             border: 1px solid var(--border-color);
             border-radius: 10px;
             padding: 14px;
-            box-sizing: border-box;
             font-family: 'Consolas', 'Courier New', monospace;
             resize: vertical;
             margin-bottom: 15px;
             direction: ltr;
-            text-align: left;
-            font-size: 14px;
         }
 
-        .output-label {
-            margin-bottom: 8px;
-            display: block;
-            font-weight: bold;
-            color: #9ca3af;
-        }
-
-        /* ---------- Footer buttons ---------- */
-        .footer-actions {
-            display: flex;
-            gap: 12px;
-        }
+        .output-label { margin-bottom: 8px; display: block; font-weight: bold; color: #9ca3af; }
+        .footer-actions { display: flex; gap: 12px; }
     </style>
 </head>
 <body>
 
-<!-- وێناکردنی لۆگۆ لە دەستە چەپی سەرەوە -->
 <header>
     <div class="logo-container">
         <div class="logo-text"><span>iC</span>ceph</div>
@@ -194,26 +133,26 @@
     </div>
 </header>
 
-<!-- ناوەڕۆکی سەرەکی ماڵپەڕەکە -->
 <div class="main-wrapper">
     <div class="container">
         <h1>🔐 ICCEPH LUA CUSTOM VM OBFUSCATOR</h1>
 
-        <!-- Top action row: upload + obfuscate -->
+        <!-- لێرە سندوقی Cloudflare Turnstile بە ڕاستی پیشان دەدرێت -->
+        <div class="turnstile-container">
+            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA"></div>
+        </div>
+
         <div class="action-row">
             <label for="file-input" class="btn btn-upload">📂 Upload File</label>
             <input type="file" id="file-input" accept=".lua,.txt">
             <button class="btn" id="obfuscate-btn">🔒 Obfuscate Code</button>
         </div>
 
-        <!-- Input code area -->
         <textarea id="input-code" placeholder="-- Paste your Lua code here or upload a .lua / .txt file ..."></textarea>
 
-        <!-- Output label and obfuscated code area -->
         <span class="output-label">⬇️ Obfuscated Code (Universal VM Support):</span>
         <textarea id="output-code" readonly placeholder="-- The protected VM code will appear here ..."></textarea>
 
-        <!-- Footer: copy + download -->
         <div class="footer-actions">
             <button class="btn btn-secondary" id="copy-btn">📋 Copy</button>
             <button class="btn btn-secondary" id="download-btn">📥 Download</button>
@@ -221,7 +160,6 @@
     </div>
 </div>
 
-<!-- بەستەری فایلی جاڤاسکریپتەکەت (script.js) -->
 <script src="script.js"></script>
 </body>
 </html>
