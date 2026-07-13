@@ -67,6 +67,14 @@
         .logo-text { font-size: 28px; font-weight: 900; color: #ffffff; letter-spacing: 0.5px; }
         .logo-text span { color: #38bdf8; text-shadow: 0 0 12px rgba(56, 189, 248, 0.4); }
 
+        /* Google Logo Styling Inside Header */
+        .google-header-logo {
+            height: 24px;
+            margin-left: auto;
+            filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2));
+            opacity: 0.9;
+        }
+
         /* ---------- Sidebar Navigation ---------- */
         .sidebar {
             position: fixed;
@@ -201,10 +209,13 @@
     <div class="menu-link" id="go-obfuscator">⚡ LuaU Obfuscator</div>
 </nav>
 
-<!-- Top Premium Header -->
+<!-- Top Premium Header with Google Logo -->
 <header>
     <button class="menu-btn" id="open-sidebar">≡</button>
     <div class="logo-text"><span>iC</span>ceph</div>
+    
+    <!-- Google Official Logo Embedded -->
+    <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google" class="google-header-logo">
 </header>
 
 <!-- VIEW 1: HOME (Pure HTML Section) -->
@@ -224,7 +235,7 @@
         <div class="container">
             <h1>🔐 ICCEPH LUA CUSTOM VM OBFUSCATOR</h1>
 
-            <!-- Security Verification Layer -->
+            <!-- Cloudflare Turnstile Verification Layer -->
             <div class="turnstile-container">
                 <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA"></div>
             </div>
@@ -248,6 +259,6 @@
     </div>
 </div>
 
-<script src="index.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
